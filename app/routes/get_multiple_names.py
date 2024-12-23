@@ -1,7 +1,7 @@
 from sqlalchemy import text
 from flask import request
 from flask_api import status
-from resources.connections import engine, MULTI_QUERY
+from resources.connections import get_engine, MULTI_QUERY
 from resources.api_decorator import api_endpoint
 
 
