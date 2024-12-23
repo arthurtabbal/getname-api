@@ -1,14 +1,15 @@
 from sqlalchemy import text
 from flask_api import status
-from resources.connections import engine, NAME_QUERY
+from resources.connections import get_engine, NAME_QUERY
 from resources.cache import cache
 from resources.api_decorator import api_endpoint
 
 
 @api_endpoint()
 @cache.cached()
-def search_name(partial_name):
+def search_name(db_id, partial_name):
     try:
+        engine = get_engine(db_id)
         results = []
         with engine.connect() as connection:
             # Prepare the query with the partial name
