@@ -1,14 +1,16 @@
 from sqlalchemy import text
 from flask_api import status
-from resources.connections import engine, QUERY
+from resources.connections import get_engine, QUERY
 from resources.cache import cache
 from resources.api_decorator import api_endpoint
 
 
 @api_endpoint()
 @cache.cached()
-def get_name(idPatient):
+def get_name(db_id, idPatient):
     name = None
+    engine = get_engine(db_id)
+    
     with engine.connect() as connection:
         result = connection.execute(
             text(QUERY.format(":idPatient")), {"idPatient": idPatient}
