@@ -14,10 +14,18 @@ cache.init_app(app, config)
 
 # Rotas de views
 app.add_url_rule("/", view_func=hello)
-app.add_url_rule("/patient-name/<string:db_id>/<int:idPatient>", view_func=get_name, methods=["GET"])
-app.add_url_rule("/search-name/<string:db_id>/<string:partial_name>", view_func=search_name, methods=["GET"])
 app.add_url_rule(
-    "/patient-name/<string:db_id>/multiple", view_func=get_multiple_names, methods=["POST"]
+    "<string:db_id>/patient-name/<int:idPatient>", view_func=get_name, methods=["GET"]
+)
+app.add_url_rule(
+    "/<string:db_id>/search-name/<string:partial_name>",
+    view_func=search_name,
+    methods=["GET"],
+)
+app.add_url_rule(
+    "/<string:db_id>/patient-name/multiple",
+    view_func=get_multiple_names,
+    methods=["POST"],
 )
 # Rota de limpeza do dache
 app.add_url_rule("/patient-name/clear", view_func=clear_cache, methods=["GET"])
