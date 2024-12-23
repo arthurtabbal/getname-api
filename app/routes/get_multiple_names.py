@@ -6,7 +6,7 @@ from resources.api_decorator import api_endpoint
 
 
 @api_endpoint()
-def get_multiple_names():
+def get_multiple_names(db_id):
     data = request.get_json()
     ids_list = data.get("patients", [])
     bind_ids = [":" + str(i + 1) for i in range(len(ids_list))]
@@ -14,6 +14,8 @@ def get_multiple_names():
 
     names = []
     found = []
+
+    engine = get_engine(db_id)
 
     with engine.connect() as connection:
         result = connection.execute(
