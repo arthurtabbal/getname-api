@@ -15,7 +15,7 @@ cache.init_app(app, config)
 # Rotas de views
 app.add_url_rule("/", view_func=hello)
 app.add_url_rule(
-    "<string:db_id>/patient-name/<int:idPatient>", view_func=get_name, methods=["GET"]
+    "/<string:db_id>/patient-name/<int:idPatient>", view_func=get_name, methods=["GET"]
 )
 app.add_url_rule(
     "/<string:db_id>/search-name/<string:partial_name>",
