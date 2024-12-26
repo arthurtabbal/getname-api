@@ -1,24 +1,30 @@
+from datetime import datetime, date
 from sqlalchemy import text
 from flask_api import status
 from resources.connections import get_engine, NAME_QUERY
 from resources.cache import cache
 from resources.api_decorator import api_endpoint
 
-
 @api_endpoint()
 @cache.cached()
 def search_name(db_id, partial_name):
     try:
         engine = get_engine(db_id)
+
         results = []
         with engine.connect() as connection:
             # Prepare the query with the partial name
-            query = NAME_QUERY.format(partial_name)
+            query = NAME_QUERY.format(partial_name,partial_name)
             result = connection.execute(text(query))
 
             # Collect results
             for row in result:
-                data = {"idPatient": row[0], "name": row[1]}
+                data = {
+                        "idPatient": row[0], 
+                        "name": row[1], 
+                        "cpf": row[2], 
+                        "dtnascimento": row[3].isoformat() if isinstance(row[3], (datetime, date)) else ''
+                        }
                 results.append(data)
 
         if results:
